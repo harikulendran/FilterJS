@@ -23,9 +23,9 @@ class FilterJS {
 			image[instr.apply](params);
 	}
 
-	async apply(input, filter) {
+	async apply(input, filter, type) {
 		var layers = [];
-		var image = await Jimp.read(this.getBufferFrom64(input));
+		var image = (type==="path") ? await Jimp.read(input) : await Jimp.read(this.getBufferFrom64(input));
 		var layersInstr = (filter.name in filters) ? filters[filter.name] : filter.instructions;
 		for (var ldx in layersInstr) {
 			var clay = layersInstr[ldx];
