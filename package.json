@@ -1,0 +1,16 @@
+{
+	"name": "@harikulendran/filterjs",
+	"version": "1.0.0",
+	"description": "Image filterer",
+	"license": "GPL-3.0-or-later",
+	"repository": "harikulendran/FilterJS",
+	"main": "index.js",
+	"keywords": [
+		"filter",
+		"image",
+		"instagram"
+	],
+	"dependencies": {
+		"jimp": "^0.6.0"
+	}
+}
