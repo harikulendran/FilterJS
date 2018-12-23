@@ -12,6 +12,10 @@ class FilterJS {
 			return image.scan(0,0,image.bitmap.width,image.bitmap.height, functions[instr.apply](...instr.params,image.bitmap.width,image.bitmap.height));
 		if (instr.apply in convolutions)
 			return image.convolute(convolutions[instr.apply](...instr.params));
+		if (image[instr.apply]===undefined) {
+			console.error("Unable to find instruction: '"+instr.apply+"', ignoring");
+			return image;
+		}
 
 		var params = instr.params.length===0 ? 
 			[] :
@@ -24,6 +28,13 @@ class FilterJS {
 	}
 
 	async apply(input, filter, type) {
+		if (!(filter.name in filters) && filter.instructions===undefined) {
+			console.error("The requested filter was not found");
+			return;
+		} else if ((filter.name in filters) && filter.instructions!==undefined) {
+			console.error("A filter with this name already exists, either rename your custom filter, or if you are attempting to use the named filter, remove the instructions argument");
+			return;
+		}
 		var layers = [];
 		var image = (type==="path") ? await Jimp.read(input) : await Jimp.read(this.getBufferFrom64(input));
 		var layersInstr = (filter.name in filters) ? filters[filter.name] : filter.instructions;
